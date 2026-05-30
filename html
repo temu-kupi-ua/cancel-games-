@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="uk-UA">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>UKRAINE GTA x Bloody-FamQ · Новинна Стрічка</title>
+	<style>
+		:root { 
+			--bg-main: #0b0c10; 
+			--bg-card: #111319; 
+			--bg-header: #161820; 
+			--border: #1f2331; 
+			--text: #f1f5f9; 
+			--text-muted: #64748b; 
+			--bf-purple: #8a2be2; 
+			--bf-glow: #bd53ff; 
+		}
+		
+		* { box-sizing: border-box; }
+		
+		html, body { background: var(--bg-main); color: var(--text); font-family: sans-serif; margin: 0; padding: 0; }
+		body { background-image: radial-gradient(circle at 50% 0%, #1a0b2e 0%, #0b0c10 70%); background-attachment: fixed; }
+		
+		/* ХЕДЕР ТА НАВІГАЦІЯ */
+		.p-header { background: var(--bg-header); border-bottom: 3px solid var(--bf-purple); padding: 15px 30px; box-shadow: 0 4px 25px rgba(138,43,226,0.25); display: flex; justify-content: space-between; align-items: center; }
+		.brand-ug { font-size: 24px; font-weight: 900; background: linear-gradient(180deg, #0057b7 45%, #ffd700 55%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; text-decoration: none; }
+		.brand-bf { font-size: 24px; font-weight: 900; color: #fff; text-shadow: 0 0 10px var(--bf-purple); font-style: italic; text-decoration: none; }
+		
+		.p-nav { background: #161820; border-bottom: 1px solid var(--border); display: flex; padding: 0 30px; }
+		.p-navEl { padding: 12px 20px; color: #f1f5f9; font-weight: 600; font-size: 14px; text-transform: uppercase; text-decoration: none; cursor: pointer; border-bottom: 2px solid transparent; }
+		.p-navEl:hover { color: var(--bf-glow); }
+		.p-navEl.is-active { color: var(--bf-glow); border-bottom-color: var(--bf-purple); background: rgba(138,43,226,0.05); }
+		
+		/* ОСНОВНИЙ БЛОК */
+		.p-body { max-width: 1400px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
+		@media (max-width: 1024px) { .p-body { grid-template-columns: 1fr; } }
+		
+		.block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 25px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.4); }
+		.block-header { background: linear-gradient(90deg, #161922 0%, #201335 100%); padding: 15px 20px; font-size: 15px; font-weight: 700; text-transform: uppercase; border-bottom: 1px solid var(--border); color: #fff; margin: 0; display: flex; align-items: center; justify-content: space-between; }
+		
+		/* КНОПКИ */
+		.btn-purple { background: var(--bf-purple); color: #fff; border: none; padding: 9px 18px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 13px; transition: background 0.2s, transform 0.1s; display: flex; align-items: center; gap: 6px; text-decoration: none; }
+		.btn-purple:hover { background: var(--bf-glow); transform: translateY(-1px); }
+		.btn-purple:active { transform: translateY(0); }
+		
+		/* СТРІЧКА НОВИН */
+		.news-feed-row { display: flex; padding: 18px 20px; border-bottom: 1px solid var(--border); gap: 15px; align-items: center; transition: background 0.2s; }
+		.news-feed-row:hover { background: #161822; }
+		
+		.feed-avatar { width: 42px; height: 42px; background: #1f2331; border: 2px solid var(--bf-purple); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; color: #fff; text-transform: uppercase; box-shadow: 0 0 8px rgba(138,43,226,0.2); }
+		.feed-details { flex: 1; }
+		.feed-title { font-size: 16px; font-weight: 600; color: #f1f5f9; cursor: pointer; transition: color 0.15s; margin-bottom: 4px; display: inline-block; }
+		.feed-title:hover { color: var(--bf-glow); }
+		.feed-meta { font-size: 12px; color: var(--text-muted); }
+		.feed-right { text-align: right; font-size: 12px; color: var(--text-muted); min-width: 100px; }
+		
+		/* БЕЙДЖІ ТЕГІВ */
+		.badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; text-transform: uppercase; margin-right: 8px; display: inline-block; vertical-align: middle; }
+		.badge-important { background: #bd53ff; color: #fff; box-shadow: 0 0 8px var(--bf-purple); }
+		.badge-waiting { background: #e28743; color: #fff; }
+		.badge-closed { background: #5cb85c; color: #fff; }
+		.badge-declined { background: #d9534f; color: #fff; }
+		.badge-user { background: #4a5568; color: #fff; }
+		
+		/* ФОРМА СТВОРЕННЯ ТЕМИ */
+		.create-topic-form { background: #14161f; border-bottom: 2px solid var(--bf-purple); padding: 20px; display: none; animation: slideDown 0.25s ease-out; }
+		@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+		
+		.form-group { margin-bottom: 15px; }
+		.form-group label { display: block; font-size: 12px; font-weight: bold; text-transform: uppercase; color: var(--bf-glow); margin-bottom: 6px; }
+		.form-control { width: 100%; background: #0b0c10; border: 1px solid var(--border); border-radius: 4px; padding: 10px; color: #fff; font-size: 14px; box-sizing: border-box; outline: none; transition: border-color 0.2s; }
+		.form-control:focus { border-color: var(--bf-purple); }
+		
+		/* САЙДБАР */
+		.sidebar-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 15px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+		.sidebar-title { font-size: 14px; font-weight: 700; text-transform: uppercase; color: var(--bf-glow); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
+		
+		/* ВСПЛИВАЮЧЕ ВІКНО ПЕРЕГЛЯДУ ТЕМИ */
+		.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+		.modal-content { background: var(--bg-card); border: 1px solid var(--bf-purple); border-radius: 10px; width: 100%; max-width: 700px; box-shadow: 0 0 30px rgba(138,43,226,0.3); overflow: hidden; animation: zoomIn 0.2s ease-out; }
+		@keyframes zoomIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+		
+		.modal-header { background: #161822; padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; }
+		.modal-body { padding: 25px; line-height: 1.6; font-size: 15px; color: #e2e8f0; white-space: pre-wrap; }
+		.modal-footer { background: #161822; padding: 15px 25px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; }
+		.close-modal { background: none; border: none; color: var(--text-muted); font-size: 24px; cursor: pointer; transition: color 0.15s; line-height: 1; }
+		.close-modal:hover { color: #fff; }
+		
+		/* ПРОФІЛЬ В ХЕДЕРІ */
+		.user-badge { color: var(--bf-glow); font-weight: bold; font-size: 14px; padding: 5px 10px; border: 1px solid rgba(138,43,226,0.3); border-radius: 4px; background: rgba(138,43,226,0.05); }
+	</style>
+</head>
+<body>
+
+	<header class="p-header">
+		<div>
+			<a href="gemini-code-1780173408877.html" class="brand-ug">UKRAINE GTA</a>
+			<span style="color:#fff;margin:0 5px;">x</span>
+			<a href="gemini-code-1780173408877.html" class="brand-bf">Bloody-FamQ</a>
+		</div>
+		
+		<div class="user-badge">
+			Дениска Хеллі
+		</div>
+	</header>
+
+	<nav class="p-nav">
+		<a href="gemini-code-1780173408877.html" class="p-navEl">Головна</a>
+		<a href="gemini-code-1780173408877.html" class="p-navEl">Форуми</a>
+		<a href="#" class="p-navEl is-active">Новини</a>
+	</nav>
+
+	<div class="p-body">
+		
+		<div class="p-body-main">
+			<div class="block">
+				
+				<div class="block-header">
+					<div style="display:flex; align-items:center; gap:8px;">
+						<svg style="width:18px; height:18px; fill:var(--bf-glow);" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+						Стрічка новин організації
+					</div>
+					<button class="btn-purple" onclick="toggleCreateForm()">
+						<svg style="width:16px; height:16px; fill:#fff;" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+						Створити тему
+					</button>
+				</div>
+
+				<div class="create-topic-form" id="topicForm">
+					<div class="form-group">
+						<label>Ваш ігровий нікнейм</label>
+						<input type="text" id="authorInput" class="form-control" value="Denyska_Helli" placeholder="Введіть нікнейм">
+					</div>
+					<div class="form-group">
+						<label>Категорія / Тег теми</label>
+						<select id="tagInput" class="form-control">
+							<option value="badge-important">Важливо</option>
+							<option value="badge-user">Оголошення</option>
+							<option value="badge-waiting">В очікуванні</option>
+							<option value="badge-closed">Зачинено</option>
+							<option value="badge-declined">Відмовлено</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Назва вашої темы</label>
+						<input type="text" id="titleInput" class="form-control" placeholder="Введіть заголовок новини чи заяви">
+					</div>
+					<div class="form-group">
+						<label>Текст публікації</label>
+						<textarea id="textInput" class="form-control" rows="5" placeholder="Докладно опишіть суть вашої теми..."></textarea>
+					</div>
+					<div style="display: flex; gap: 10px; margin-top: 10px;">
+						<button class="btn-purple" onclick="publishTopic()">Опублікувати на форум</button>
+						<button class="btn-purple" style="background:#232635;" onclick="toggleCreateForm()">Скасувати</button>
+					</div>
+				</div>
+
+				<div id="newsFeedContainer">
+					
+					<div class="news-feed-row">
+						<div class="feed-avatar">BB</div>
+						<div class="feed-details">
+							<div>
+								<span class="badge badge-important">Важливо</span>
+								<div class="feed-title" onclick="openTopic('Важливі зміни у статуті клану Bloody-FamQ', 'Bloody_Boss', 'Усім прива! Відсьогодні вносяться зміни до правил поведінки на битвах за бізнеси. \\n1. Кожен учасник зобов\\\'язаний мати при собі повний комплект броні та зброї.\\n2. Суворо заборонено нецензурну лексику у бік союзних кланів.\\n\\nЗа порушення цих пунктів — догана або виключення з організації! З повагою, Лідер.')">Важливі зміни у статуті клану Bloody-FamQ</div>
+							</div>
+							<div class="feed-meta">Автор: <span style="color: var(--bf-glow); font-weight: bold;">Bloody_Boss</span> · Сьогодні о 18:42 · Новинна стрічка</div>
+						</div>
+						<div class="feed-right">
+							<div>Відповіді: <b>14</b></div>
+							<div style="margin-top: 4px;">Перегляди: <b>182</b></div>
+						</div>
+					</div>
+
+					<div class="news-feed-row">
+						<div class="feed-avatar">AM</div>
+						<div class="feed-details">
+							<div>
+								<span class="badge badge-waiting">В очікуванні</span>
+								<div class="feed-title" onclick="openTopic('Заявка на посаду Офіцера від Andriy_Makarov', 'Andriy_Makarov', '1. Ваш ігровий нікнейм: Andriy_Makarov\\n2. Ваш ігровий рівень: 14\\n3. Чому саме ви маєте зайняти цю посаду: Маю великий досвід у стрільбі, адекватний, готовий допомагати новачкам клану та організовувати збори.\\n4. Скріншот статистики: [Додано в архів]')">Заявка на посаду Офіцера від Andriy_Makarov</div>
+							</div>
+							<div class="feed-meta">Автор: <span style="color: var(--bf-glow); font-weight: bold;">Andriy_Makarov</span> · Вчора о 21:15 · Електронні заявки</div>
+						</div>
+						<div class="feed-right">
+							<div>Відповіді: <b>2</b></div>
+							<div style="margin-top: 4px;">Перегляди: <b>45</b></div>
+						</div>
+					</div>
+
+					<div class="news-feed-row">
+						<div class="feed-avatar">DH</div>
+						<div class="feed-details">
+							<div>
+								<span class="badge badge-user">Оголошення</span>
+								<div class="feed-title" onclick="openTopic('Вечірній збір біля бункера на тренування!', 'Denyska_Helli', 'Всім привіт, збираємося сьогодні о 20:00 біля нашого головного бункера. Будемо тренувати тактику стрільби стінка на стінку, а також проведемо невеликий розіграш грошей серед тих, хто прийде! Бути всім!')">Вечірній збір біля бункера на тренування!</div>
+							</div>
+							<div class="feed-meta">Автор: <span style="color: var(--bf-glow); font-weight: bold;">Denyska_Helli</span> · 2 дні тому · Новинна стрічка</div>
+						</div>
+						<div class="feed-right">
+							<div>Відповіді: <b>5</b></div>
+							<div style="margin-top: 4px;">Перегляди: <b>67</b></div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
+		<div class="p-body-sidebar">
+			<div class="sidebar-block">
+				<div class="sidebar-title">Статистика стрічки</div>
+				<div style="font-size: 13px; color: var(--text-muted); line-height: 1.8;">
+					Активних оголошень: <strong style="color:#fff;">34</strong><br>
+					Заяв у черзі: <strong style="color: #e28743;">7 в очікуванні</strong><br>
+					Оновлено: <strong style="color:var(--bf-glow);">Щойно</strong>
+				</div>
+			</div>
+			<div class="sidebar-block">
+				<div class="sidebar-title">Модерація стрічки</div>
+				<div style="font-size:13px;color:#fff;font-weight:bold;">Bloody_Boss</div>
+				<div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Засновник сім'ї</div>
+				<div style="font-size:13px;color:#fff;font-weight:bold;">Старший Склад</div>
+				<div style="font-size:11px;color:var(--text-muted);">Офіцери організації</div>
+			</div>
+		</div>
+		
+	</div>
+
+	<div class="modal-overlay" id="topicModal" onclick="closeModal()">
+		<div class="modal-content" onclick="event.stopPropagation()">
+			<div class="modal-header">
+				<div>
+					<h2 id="modalTitle" style="margin: 0 0 5px 0; font-size: 18px; color: #fff;"></h2>
+					<div style="font-size: 12px; color: var(--text-muted);">
+						Автор: <span id="modalAuthor" style="color: var(--bf-glow); font-weight: bold;"></span>
+					</div>
+				</div>
+				<button class="close-modal" onclick="closeModal()">&times;</button>
+			</div>
+			<div class="modal-body" id="modalBody"></div>
+			<div class="modal-footer">
+				<button class="btn-purple" style="background:#232635;" onclick="closeModal()">Закрити вікно</button>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Відкрити/закрити форму створення теми
+		function toggleCreateForm() {
+			var form = document.getElementById('topicForm');
+			form.style.display = (form.style.display === 'block') ? 'none' : 'block';
+		}
+
+		// Функція додавання нової теми
+		function publishTopic() {
+			var author = document.getElementById('authorInput').value.trim();
+			var title = document.getElementById('titleInput').value.trim();
+			var text = document.getElementById('textInput').value.trim();
+			var tagClass = document.getElementById('tagInput').value;
+			var tagText = document.getElementById('tagInput').options[document.getElementById('tagInput').selectedIndex].text;
+
+			if (!author || !title || !text) {
+				alert('Будь ласка, заповніть усі поля перед публікацією!');
+				return;
+			}
+
+			// Отримуємо перші літери для аватарки
+			var avatarLetters = author.substring(0, 2).toUpperCase();
+
+			// Створюємо новий елемент теми
+			var newRow = document.createElement('div');
+			newRow.className = 'news-feed-row';
+			
+			// Екрануємо текст, щоб лапки та переноси не ламали onclick в JS
+			var safeText = text.replace(/'/g, "\\'").replace(/\n/g, "\\n");
+			var safeTitle = title.replace(/'/g, "\\'");
+
+			newRow.innerHTML = `
+				<div class="feed-avatar">${avatarLetters}</div>
+				<div class="feed-details">
+					<div>
+						<span class="badge ${tagClass}">${tagText}</span>
+						<div class="feed-title" onclick="openTopic('${safeTitle}', '${author}', '${safeText}')">${title}</div>
+					</div>
+					<div class="feed-meta">Автор: <span style="color: var(--bf-glow); font-weight: bold;">${author}</span> · Щойно · Новинна стрічка</div>
+				</div>
+				<div class="feed-right">
+					<div>Відповіді: <b>0</b></div>
+					<div style="margin-top: 4px;">Перегляди: <b>1</b></div>
+				</div>
+			`;
+
+			// Додаємо на самий початок стрічки новин
+			var container = document.getElementById('newsFeedContainer');
+			container.insertBefore(newRow, container.firstChild);
+
+			// Очищаємо поля форми
+			document.getElementById('titleInput').value = '';
+			document.getElementById('textInput').value = '';
+			toggleCreateForm();
+		}
+
+		// Функція красивого відкриття модального вікна з вмістом теми
+		function openTopic(title, author, content) {
+			document.getElementById('modalTitle').innerText = title;
+			document.getElementById('modalAuthor').innerText = author;
+			// Замінюємо символічні переноси рядків назад на реальні
+			document.getElementById('modalBody').innerText = content.replace(/\\n/g, '\n');
+			document.getElementById('topicModal').style.display = 'flex';
+		}
+
+		// Закриття модального вікна
+		function closeModal() {
+			document.getElementById('topicModal').style.display = 'none';
+		}
+	</script>
+</body>
+</html>
